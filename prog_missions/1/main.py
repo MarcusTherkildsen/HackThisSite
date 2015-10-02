@@ -27,7 +27,7 @@ if __name__ == '__main__':
         while found == False:
             temp_perm = ''.join([str(w) for w in random.sample(item, len(item))])
             if temp_perm in wordlist:
-                print temp_perm+','
+                the_decrypted_words.append(temp_perm)
                 found = True
 
-    # Copy the console output (except last ,)
+    print ",".join(the_decrypted_words)
