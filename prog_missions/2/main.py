@@ -46,13 +46,14 @@ if __name__ == '__main__':
     proper = str(test_chr)[1:-1].replace("'","").replace("\n","   space  ").replace("   ",",").replace(" ","").split(',')
 
     print proper
+    final_str = []
     for i in xrange(len(proper)):
 
         temp_decode = decode(proper[i])
 
         if len(temp_decode)>0:
-            print min(temp_decode,key=len)
+            final_str.append(min(temp_decode,key=len))
         else:
-            print ' '
+            final_str.append(' ')
 
-
+    print "".join(final_str)
