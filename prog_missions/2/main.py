@@ -8,6 +8,8 @@ from __future__ import division
 import numpy as np
 from PIL import Image
 
+#http://thelivingpearl.com/2013/01/08/morse-code-and-dictionaries-in-python-with-sound/
+
 # Morse decryption from http://ken.friislarsen.net/blog/2007/09/19/morse-code-decoding-with-python-list-comprehensions/
 
 letters = [('A',".-"),   ('B',"-..."), ('C',"-.-."), ('D',"-.."), ('E',"."),
@@ -28,32 +30,34 @@ def decode(input):
 
 if __name__ == '__main__':
 
-    img = np.array(Image.open('2.png'))
+    img = np.array(Image.open('www.hackthissite.png'))
 
     n_col, n_row = img.shape
 
-    # white pixels = 1
-    test = []
-    for jn in xrange(n_col):
-        test_temp = 100*jn+np.where(img[jn,:]==1)[0]
-        [test.append(test_temp[i]) for i in xrange(len(test_temp))]
+    # Flatten to a single string
+    img_flat = np.reshape(img,n_col*n_row)
 
-    test = np.diff(np.array(test))
+    # White pixels == 1
+    wp_index = np.where(img_flat == 1)[0]
 
-    test_chr = np.array([chr(test[i]) for i in xrange(len(test))])
+    # As stated at the website, the first character should remain the same
+    # then the second should be wp_index[1]-wp_index[0]
 
+    wp_dist = [wp_index[0]]
+    for i in np.arange(len(wp_index)-1)+1:
+        wp_dist.append(wp_index[i]-wp_index[i-1])
 
-    proper = str(test_chr)[1:-1].replace("'","").replace("\n","   space  ").replace("   ",",").replace(" ","").split(',')
+    # Convert into morse code
+    morse_code = []
+    for i in xrange(len(wp_dist)):
+        morse_code.append(chr(wp_dist[i]))
 
-    print proper
-    final_str = []
-    for i in xrange(len(proper)):
+    morse_final = ("".join(morse_code)).split(" ")
 
-        temp_decode = decode(proper[i])
+    # Now we solve the morse code
+    morse_solved = []
+    for i in xrange(len(morse_final)):
+        morse_solved.append(min(decode(morse_final[i]),key=len))
 
-        if len(temp_decode)>0:
-            final_str.append(min(temp_decode,key=len))
-        else:
-            final_str.append(' ')
-
-    print "".join(final_str)
+    # Print the solved morse code
+    print "".join(morse_solved)
