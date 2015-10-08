@@ -17,7 +17,7 @@ def md5(str_in):
 
 def evalCrossTotal(strMD5):
     intTotal = 0
-    arrMD5Chars = str_split(strMD5)
+    arrMD5Chars = (strMD5).split()
 
     for j in arrMD5Chars:
         intTotal += '0x0'+j
