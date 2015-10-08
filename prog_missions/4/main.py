@@ -107,6 +107,9 @@ if __name__ == '__main__':
         x_ = stuff[:,0]+arcs[i,0]
         y_ = stuff[:,1]+arcs[i,1]
         ax.plot(x_,y_,color = c_arcs[i])
-
+    
+    # Remove labels
+    plt.setp( ax.get_xticklabels(), visible=False)
+    plt.setp( ax.get_yticklabels(), visible=False)
     plt.savefig('done.png',dpi=400,bbox_inches='tight')
     plt.show()
