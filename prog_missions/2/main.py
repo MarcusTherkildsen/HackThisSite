@@ -8,25 +8,30 @@ from __future__ import division
 import numpy as np
 from PIL import Image
 
-#http://thelivingpearl.com/2013/01/08/morse-code-and-dictionaries-in-python-with-sound/
+'''
+Morse decryption from
+http://ken.friislarsen.net/blog/2007/09/19/
+morse-code-decoding-with-python-list-comprehensions/
+'''
 
-# Morse decryption from http://ken.friislarsen.net/blog/2007/09/19/morse-code-decoding-with-python-list-comprehensions/
+letters = [('A', ".-"), ('B', "-..."), ('C', "-.-."), ('D', "-.."),
+           ('E', "."), ('F', "..-."), ('G', "--."),  ('H', "...."),
+           ('I', ".."), ('J', ".---"), ('K', "-.-"), ('L', ".-.."),
+           ('M', "--"), ('N', "-."), ('O', "---"), ('P', ".--."),
+           ('Q', "--.-"), ('R', ".-."),  ('S', "..."), ('T', "-"),
+           ('U', "..-"),  ('V', "...-"), ('W', ".--"),  ('X', "-..-"),
+           ('Y', "-.--"), ('Z', "--.."), ('0', "-----"), ('1', ".----"),
+           ('2', "..---"), ('3', "...--"), ('4', "....-"), ('5', "....."),
+           ('6', "-...."), ('7', "--..."), ('8', "---.."), ('9', "----.")]
 
-letters = [('A',".-"),   ('B',"-..."), ('C',"-.-."), ('D',"-.."), ('E',"."),
-           ('F',"..-."), ('G',"--."),  ('H',"...."), ('I',".."),  ('J',".---"),
-           ('K',"-.-"),  ('L',".-.."), ('M',"--"),   ('N',"-."),  ('O',"---"),
-           ('P',".--."), ('Q',"--.-"), ('R',".-."),  ('S',"..."), ('T',"-"),
-           ('U',"..-"),  ('V',"...-"), ('W',".--"),  ('X',"-..-"),('Y',"-.--"),
-           ('Z',"--.."),('0', "-----"),('1', ".----"),('2', "..---"),('3',"...--"),
-           ('4',"....-"),('5', "....."),('6', "-...."),('7',"--..."),('8', "---.."),('9', "----.")]
 
 def decode(input):
-    if input == "" :
+    if input == "":
         return [""]
     else:
-        return [ letter + remaining
-                 for letter, code in letters if input.startswith(code)
-                 for remaining in decode(input[len(code):]) ]
+        return [letter + remaining
+                for letter, code in letters if input.startswith(code)
+                for remaining in decode(input[len(code):])]
 
 if __name__ == '__main__':
 
@@ -35,7 +40,7 @@ if __name__ == '__main__':
     n_col, n_row = img.shape
 
     # Flatten to a single string
-    img_flat = np.reshape(img,n_col*n_row)
+    img_flat = np.reshape(img, n_col*n_row)
 
     # White pixels == 1
     wp_index = np.where(img_flat == 1)[0]
@@ -57,7 +62,7 @@ if __name__ == '__main__':
     # Now we solve the morse code
     morse_solved = []
     for i in xrange(len(morse_final)):
-        morse_solved.append(min(decode(morse_final[i]),key=len))
+        morse_solved.append(min(decode(morse_final[i]), key=len))
 
     # Print the solved morse code
     print "".join(morse_solved)

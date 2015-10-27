@@ -12,15 +12,14 @@ import time
 
 if __name__ == '__main__':
 
-
     # URL to the 11th prog mission
     url_data = 'https://www.hackthissite.org/missions/prog/11/'
 
     # Open in firefox
     driver = webdriver.Firefox()
 
-    #Login
-    log_pass_list = [('your_username','your_password')]
+    # Login
+    log_pass_list = [('your_username', 'your_password')]
 
     # Load the page
     driver.get(url_data)
@@ -65,7 +64,8 @@ if __name__ == '__main__':
     for i in xrange(len(gen_str)):
         asci_str.append(chr(gen_str[i]))
 
-    to_submit = str(asci_str)[1:-1].replace(",","").replace("'","").replace(" ","")
+    to_submit = [str(asci_str)[1:-1].replace(",", "").replace("'", "")
+                                    .replace(" ", "")]
 
     # Submit solution
     inputElement = driver.find_element_by_name('solution')
